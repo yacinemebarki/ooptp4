@@ -5,6 +5,30 @@ import java.awt.*;
 public class app {
     static boolean new_client=false;
     static Achat achat=null;
+
+    public static void ajouterProduit(JTextField nom,JTextField prix,JTextField quantity,JCheckBox box1,JComboBox<String> options){
+        boolean fidele = box1.isSelected();
+        String type=(String) options.getSelectedItem();
+
+        boolean liver=type.equals("express");
+
+        if (achat==null){
+            achat=new Achat(fidele, liver);
+        }
+        String name=nom.getText();
+        double price=Double.parseDouble(prix.getText());
+        int qtn = Integer.parseInt(quantity.getText());
+        
+
+        produit p=new produit(name, price, qtn);
+        achat.addarticle(p);
+        nom.setText("");
+        prix.setText("");
+        quantity.setText("");
+        box1.setSelected(false);
+        options.setSelectedIndex(0);
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(()->{
             JFrame frame=new JFrame("achats");
@@ -29,10 +53,17 @@ public class app {
             panel_label.add(Box.createVerticalStrut(8));
             JCheckBox box1=new JCheckBox("fidel");
             panel_label.add(box1);
-
+            
             String[] option={"standard","express"};
             JComboBox<String> options=new JComboBox<>(option);
             panel_label.add(options);
+            
+            JLabel result_lable=new JLabel("total prix");
+            result_lable.setForeground(Color.BLUE);
+            panel_label.add(result_lable);
+
+
+            
 
             JPanel panel_button=new JPanel();
             panel_button.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
@@ -48,31 +79,16 @@ public class app {
             frame.setVisible(true);
             
             ajouter.addActionListener(e->{
-                boolean fidele=box1.isSelected();
-                String type=(String) options.getSelectedItem();
-                boolean liver=false;
-                if(type=="express"){
-                    liver=true;
-                }
-                else if(type=="standard"){
-                    liver=false;
-                }
-                if (new_client==false){
-                    new_client=true;
-                    Achat achat=new Achat(fidele,liver);
-
-                }
-                String name=nom.getText();
-                String price_text=prix.getText();
-                String qnt=quantity.getText();
-                double price=Double.parseDouble(price_text);
-                int qtn=Integer.parseInt(qnt);
-                produit p=new produit(name, price, qtn);
-                achat.addarticle(p);
-
+                ajouterProduit(nom, prix, quantity, box1, options);
             });
             calculer.addActionListener(e->{
+
+                if(achat==null){
+                    ajouterProduit(nom, prix, quantity, box1, options);
+                }
+
                 double total_price=achat.claculer();
+                result_lable.setText("prix total: "+total_price);
 
             });
             vider.addActionListener(e->{
