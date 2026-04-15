@@ -7,21 +7,44 @@ public class app {
     static Achat achat=null;
 
     public static void ajouterProduit(JTextField nom,JTextField prix,JTextField quantity,JCheckBox box1,JComboBox<String> options){
-        boolean fidele = box1.isSelected();
-        String type=(String) options.getSelectedItem();
 
+        String name=nom.getText().trim();
+        String priceText=prix.getText().trim();
+        String qtnText=quantity.getText().trim();
+
+        if(name.isEmpty() || priceText.isEmpty() || qtnText.isEmpty()){
+            JOptionPane.showMessageDialog(null,"Tous les champs sont obligatoires !");
+            return;
+        }
+
+        double price;
+        int qtn;
+
+        try{
+            price=Double.parseDouble(priceText);
+            qtn=Integer.parseInt(qtnText);
+
+            if(price<=0 || qtn<=0){
+                JOptionPane.showMessageDialog(null,"Prix et quantité doivent être positifs !");
+                return;
+            }
+
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"Prix ou quantité invalide !");
+            return;
+        }
+
+        boolean fidele=box1.isSelected();
+        String type=(String) options.getSelectedItem();
         boolean liver=type.equals("express");
 
-        if (achat==null){
+        if(achat==null){
             achat=new Achat(fidele, liver);
         }
-        String name=nom.getText();
-        double price=Double.parseDouble(prix.getText());
-        int qtn = Integer.parseInt(quantity.getText());
-        
 
         produit p=new produit(name, price, qtn);
         achat.addarticle(p);
+
         nom.setText("");
         prix.setText("");
         quantity.setText("");
