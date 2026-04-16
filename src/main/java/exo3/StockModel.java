@@ -1,59 +1,41 @@
 package exo3;
-import java.util.*;
 
 public class StockModel {
-    List<produit> stock;
-    private int capacity;
-    public StockModel(int capcity){
-        this.capacity=capcity;
-        this.stock=new ArrayList<>();
-
+    private int max_cap;
+    private int curr_cap;
+    public StockModel(int max_cap){
+        this.max_cap=max_cap;
+        this.curr_cap=0;
     }
-    public int getcap(){
-        return capacity;
+    public int getcurrent(){
+        return curr_cap;
     }
-    public void setcap(int cap){
-        this.capacity=cap;
-    }
-
-    public String ajouter(produit p){
-        for (produit pro:stock){
-            if(pro.name==p.name){
-                pro.qnt+=p.qnt;
-                return "quantity ajouter";
-            }
+    public String ajouter(int qnt){
+        if(curr_cap+curr_cap>=max_cap){
+            return "stock inssufisant";
         }
-        if (stock.size()==capacity-1){
-            return "stock es plien";
-                   
+        else{
+            
+            curr_cap+=qnt;
+            return "element ajout";
+        }
+
+    }
+    public String suprimer(int qnt){
+        if(curr_cap==0){
+            return "stock vide";
+
         }
         else {
-            stock.add(p);
-            return "produit ajouter";
+            curr_cap-=qnt;
+            return "element suprimer";
         }
     }
 
-    public String delete(produit p){
-        for (produit pro:stock){
-            if (pro.name==p.name){
-                pro.qnt-=p.qnt;
-                if(pro.qnt<=0){
-                    return "produit suprimer";
-                }
-                else {
-                    return "quantity diminuer";
-                }
-            }
-        }
-        if(stock.size()==0){
-            return "aucun element a suprimer";
-        }
-        else {
-            return "element non trouver";
-        }
+    public void reis(int max_cap){
+        this.curr_cap=0;
+        this.max_cap=max_cap;
+        
     }
-
-    
-
 
 }

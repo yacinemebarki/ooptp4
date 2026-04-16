@@ -13,7 +13,7 @@ public class app {
         String qtnText=quantity.getText().trim();
 
         if(name.isEmpty() || priceText.isEmpty() || qtnText.isEmpty()){
-            JOptionPane.showMessageDialog(null,"Tous les champs sont obligatoires !");
+            JOptionPane.showMessageDialog(null,"Tous les champs sont obligatoires");
             return;
         }
 

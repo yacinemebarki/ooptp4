@@ -5,8 +5,6 @@ import javax.swing.*;
 public class StockView extends JFrame{
     
 
-    private JLabel nom=new JLabel("nom: ");
-    private JTextField nom_text=new JTextField(15);
     private JLabel qnt=new JLabel("quantity: ");
     private JTextField qnt_text=new JTextField(15);
       
@@ -15,12 +13,19 @@ public class StockView extends JFrame{
     private JButton suprimer=new JButton("suprimer");
     private JButton affichier=new JButton("affichier");
     private JButton reis=new JButton("réinitialiser");
+    private JPanel mainPanel = new JPanel();
 
     public StockView(){
         super("stock mangment");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         buildlabels();
         buildbuttons();
+        setContentPane(mainPanel);
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
 
     }
 
@@ -33,18 +38,17 @@ public class StockView extends JFrame{
         setContentPane(panelbtn);
         pack();
         setLocationRelativeTo(null);
+        mainPanel.add(panelbtn);
         
     }
 
     public void buildlabels(){
         JPanel panel=new JPanel();
-        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-        panel.add(nom);
-        panel.add(nom_text);
-        panel.add(Box.createVerticalStrut(8));
+        
         panel.add(qnt);
         panel.add(qnt_text);
-        panel.add(Box.createVerticalStrut(8));
+        mainPanel.add(panel);
+        
 
     }
     public JButton getajouter(){
@@ -58,6 +62,9 @@ public class StockView extends JFrame{
     }
     public JButton getrein(){
         return reis;
+    }
+    public JTextField getqnt(){
+        return qnt_text;
     }
     
 
